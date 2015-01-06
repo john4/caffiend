@@ -14,6 +14,7 @@
 		525C061A1A5CA7A300CD9CDC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 525C06191A5CA7A300CD9CDC /* Images.xcassets */; };
 		525C061D1A5CA7A300CD9CDC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525C061B1A5CA7A300CD9CDC /* LaunchScreen.xib */; };
 		525C06291A5CA7A400CD9CDC /* CaffeinedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C06281A5CA7A400CD9CDC /* CaffeinedTests.swift */; };
+		525C06371A5CA90100CD9CDC /* Caffeined.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C06361A5CA90100CD9CDC /* Caffeined.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		525C06221A5CA7A400CD9CDC /* CaffeinedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CaffeinedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		525C06271A5CA7A400CD9CDC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		525C06281A5CA7A400CD9CDC /* CaffeinedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaffeinedTests.swift; sourceTree = "<group>"; };
+		525C06361A5CA90100CD9CDC /* Caffeined.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Caffeined.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 				525C061B1A5CA7A300CD9CDC /* LaunchScreen.xib */,
 				525C06111A5CA7A300CD9CDC /* Caffeined.xcdatamodeld */,
 				525C060D1A5CA7A300CD9CDC /* Supporting Files */,
+				525C06361A5CA90100CD9CDC /* Caffeined.swift */,
 			);
 			path = Caffeined;
 			sourceTree = "<group>";
@@ -218,6 +221,7 @@
 				525C06151A5CA7A300CD9CDC /* ViewController.swift in Sources */,
 				525C06101A5CA7A300CD9CDC /* AppDelegate.swift in Sources */,
 				525C06131A5CA7A300CD9CDC /* Caffeined.xcdatamodeld in Sources */,
+				525C06371A5CA90100CD9CDC /* Caffeined.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +345,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Caffeined/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -351,6 +356,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Caffeined/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
