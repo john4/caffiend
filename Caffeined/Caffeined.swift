@@ -29,6 +29,25 @@ class DrinkBlank {
         self.commonSizes = commonSizes
         self.type = type
     }
+    
+    func getImage() -> UIImage? {
+        var path : String
+        
+        switch self.type {
+        case .Tea:
+            path = "pathToTeaTimage"
+        case .Coffee:
+            path = "pathToCoffeeImage"
+        case .EnergyDrink:
+            path = "pathToEnergyDrink"
+        case .Soda:
+            path = "pathToEnergySoda"
+        default:
+            path = "pathToOther"
+        }
+        
+        return UIImage(named: path)
+    }
 }
 
 
