@@ -67,12 +67,12 @@ class DatabaseManager : NSObject {
         var drinks : Array<DrinkBlank> = []
         
         let results : FMResultSet = self.drinkDatabase!.executeQuery(
-            "SELECT * FROM drinks WHERE category = ?",
+            "SELECT * FROM drinks WHERE type = ?",
             withArgumentsInArray: [drinkTypeLookup.rawValue])
         
         while results.next() {
             let newDrink = DrinkBlank(name: results.stringForColumn("name"),
-                caffeineContent : results.doubleForColumn("caffeineContent"),
+                caffeineContent : results.doubleForColumn("caffeine"),
                 // SQLite does not have support for arrays, so we split a comma separated string
                 commonSizes : split(results.stringForColumn("sizes"),{$0 == ","},
                     allowEmptySlices:false).map({$0.toInt()!}),
