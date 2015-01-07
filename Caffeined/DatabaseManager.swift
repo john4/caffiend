@@ -28,21 +28,6 @@ private func copyDatabaseFile() {
     }
 }
 
-enum DrinkType: String {
-    case Tea = "tea"
-    case Coffee = "coffee"
-    case EnergyDrink = "energy"
-    case Soda = "soda"
-    case Other = "other"
-}
-
-class Drink : NSObject {
-    var name : String = ""
-    var caffeineContent : Double = 0
-    var commonSizes : Array<Int> = []
-    var type : DrinkType = DrinkType.Other
-    
-}
 class DatabaseManager : NSObject {
     
     private var drinkDatabase : FMDatabase?
@@ -77,22 +62,22 @@ class DatabaseManager : NSObject {
     // here we could have an else if we have multiple versions of this DB
     // floating around, like if we added a column later but that's unnecessary right now
     
-    func getDrinksForCategory(drinkTypeLookup : DrinkType) -> Array<Drink> {
+    func getDrinksForCategory(drinkTypeLookup : DrinkType) -> Array<DrinkBlank> {
         
-        var drinks : Array<Drink> = []
+        var drinks : Array<DrinkBlank> = []
         
         let results : FMResultSet = self.drinkDatabase!.executeQuery(
             "SELECT * FROM drinks WHERE category = ?",
             withArgumentsInArray: [drinkTypeLookup.rawValue])
         
         while results.next() {
-            let newDrink = Drink()
-            newDrink.name = results.stringForColumn("name")
-            newDrink.caffeineContent = results.doubleForColumn("caffeineContent")
-            // SQLite does not have support for arrays, so we split a comma separated string
-            newDrink.commonSizes = split(results.stringForColumn("sizes"),{$0 == ","},
-                allowEmptySlices:false).map({$0.toInt()!})
-            newDrink.type = DrinkType(rawValue: results.stringForColumn("type"))!
+            let newDrink = DrinkBlank(name: results.stringForColumn("name"),
+                caffeineContent : results.doubleForColumn("caffeineContent"),
+                // SQLite does not have support for arrays, so we split a comma separated string
+                commonSizes : split(results.stringForColumn("sizes"),{$0 == ","},
+                    allowEmptySlices:false).map({$0.toInt()!}),
+                type : DrinkType(rawValue: results.stringForColumn("type"))!)
+            
             drinks.append(newDrink)
         }
         return drinks
