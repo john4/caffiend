@@ -40,6 +40,8 @@ class DatabaseManager : NSObject {
         super.init()
         
         copyDatabaseFile()
+        
+        self.initializeDatabase()
     }
     
     private func initializeDatabase() {
@@ -58,6 +60,8 @@ class DatabaseManager : NSObject {
             
             return
         }
+        
+        return
     }
     // here we could have an else if we have multiple versions of this DB
     // floating around, like if we added a column later but that's unnecessary right now
