@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>42DE4426-6480-45A9-9217-A3CBF74B485F</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Caffeined</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>C6A6664D726480053678D716F70301D1B2190CA9</key>
+		<string>https://github.com/John4/Caffeined.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Caffeined.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>C6A6664D726480053678D716F70301D1B2190CA9</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/John4/Caffeined.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>C6A6664D726480053678D716F70301D1B2190CA9</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>C6A6664D726480053678D716F70301D1B2190CA9</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Caffeined</string>
+		</dict>
+	</array>
+</dict>
+</plist>
