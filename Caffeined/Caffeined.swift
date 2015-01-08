@@ -10,25 +10,25 @@ import Foundation
 import UIKit
 
 
-class Drink {
-    var name: String
-    var volume: Int         // in ounces
-    var caffeine: Float     // in grams per ounce (or mL?)
-    var image: UIImage? = UIImage(named: "something")
-    
-    init(name: String, vol: Int, caf: Float) {
-        self.name == name
-        self.volume == vol
-        self.caffeine == caf
-    }
-}
-
-class Coffee: Drink {
-    override var image {
-        UIImage(named: "somethding")
-    }
-    
-    init() {
-        
-    }
-}
+//class Drink {
+//    var name: String
+//    var volume: Int         // in ounces
+//    var caffeine: Float     // in grams per ounce (or mL?)
+//    var image: UIImage? = UIImage(named: "something")
+//    
+//    init(name: String, vol: Int, caf: Float) {
+//        self.name == name
+//        self.volume == vol
+//        self.caffeine == caf
+//    }
+//}
+//
+//class Coffee: Drink {
+//    override var image {
+//        UIImage(named: "somethding")
+//    }
+//    
+//    init() {
+//        
+//    }
+//}
