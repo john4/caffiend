@@ -1,5 +1,5 @@
 //
-//  Caffeined.swift
+//  Drink.swift
 //  Caffeined
 //
 //  Created by John Martin on 1/6/15.
@@ -44,8 +44,6 @@ class Drink {
         encoder.encodeObject(type.rawValue, forKey: "type")
     }
     
-    
-    
     func getImage() -> UIImage? {
         var path : String
         
@@ -63,13 +61,3 @@ class Drink {
         return UIImage(named: path)
     }
 }
-
-//class Coffee: Drink {
-//    override var image : {
-//        UIImage(named: "somethding")
-//    }
-//    
-//    init() {
-//        
-//    }
-//}
