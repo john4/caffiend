@@ -12,23 +12,39 @@ import UIKit
 enum DrinkType: String {
     case Tea = "tea"
     case Coffee = "coffee"
-    case EnergyDrink = "energy"
-    case Soda = "soda"
+    case EnergyDrink = "energy_soda"
     case Other = "other"
 }
 
-class DrinkBlank {
+class Drink {
     var name : String = ""
-    var caffeineContent : Double = 0
-    var commonSizes : Array<Int> = []
+    var caffeineContent : Double = 0 //mg per floz?
+    var volume : Int = 0 // floz?
     var type : DrinkType = DrinkType.Other
     
-    init(name: String, caffeineContent : Double, commonSizes : Array<Int>, type : DrinkType) {
+    init(name: String, caffeineContent : Double, volume : Int, type : DrinkType) {
         self.name = name
         self.caffeineContent = caffeineContent
-        self.commonSizes = commonSizes
+        self.volume = volume
         self.type = type
     }
+    
+    convenience init(decoder : NSCoder) {
+        let name : String = decoder.decodeObjectForKey("name") as String
+        let caffeineContent : Double = decoder.decodeObjectForKey("caffeineContent") as Double
+        let volume : Int = decoder.decodeObjectForKey("volume") as Int
+        let type : DrinkType = DrinkType(rawValue: decoder.decodeObjectForKey("type") as String)!
+        self.init(name: name,caffeineContent: caffeineContent,volume: volume,type: type)
+    }
+    
+    func encodeWithEncoder(encoder : NSCoder) {
+        encoder.encodeObject(name, forKey: "name")
+        encoder.encodeObject(caffeineContent, forKey: "caffeineContent")
+        encoder.encodeObject(volume, forKey: "volume")
+        encoder.encodeObject(type.rawValue, forKey: "type")
+    }
+    
+    
     
     func getImage() -> UIImage? {
         var path : String
@@ -40,27 +56,11 @@ class DrinkBlank {
             path = "pathToCoffeeImage"
         case .EnergyDrink:
             path = "pathToEnergyDrink"
-        case .Soda:
-            path = "pathToEnergySoda"
         default:
             path = "pathToOther"
         }
         
         return UIImage(named: path)
-    }
-}
-
-
-class Drink {
-    var name: String
-    var volume: Int         // in ounces
-    var caffeine: Float     // in grams per ounce (or mL?)
-    var image: UIImage? = UIImage(named: "something")
-    
-    init(name: String, vol: Int, caf: Float) {
-        self.name = name
-        self.volume = vol
-        self.caffeine = caf
     }
 }
 

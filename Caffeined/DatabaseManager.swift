@@ -66,22 +66,19 @@ class DatabaseManager : NSObject {
     // here we could have an else if we have multiple versions of this DB
     // floating around, like if we added a column later but that's unnecessary right now
     
-    func getDrinksForCategory(drinkTypeLookup : DrinkType) -> Array<DrinkBlank> {
+    func getDrinksForCategory(drinkTypeLookup : DrinkType) -> Array<Drink> {
         
-        var drinks : Array<DrinkBlank> = []
+        var drinks : Array<Drink> = []
         
         let results : FMResultSet = self.drinkDatabase!.executeQuery(
             "SELECT * FROM drinks WHERE type = ?",
             withArgumentsInArray: [drinkTypeLookup.rawValue])
         
         while results.next() {
-            let newDrink = DrinkBlank(name: results.stringForColumn("name"),
+            let newDrink = Drink(name: results.stringForColumn("name"),
                 caffeineContent : results.doubleForColumn("caffeine"),
-                // SQLite does not have support for arrays, so we split a comma separated string
-                commonSizes : split(results.stringForColumn("sizes"),{$0 == ","},
-                    allowEmptySlices:false).map({$0.toInt()!}),
+                volume : Int(results.intForColumn("volume")),
                 type : DrinkType(rawValue: results.stringForColumn("type"))!)
-            
             drinks.append(newDrink)
         }
         return drinks
