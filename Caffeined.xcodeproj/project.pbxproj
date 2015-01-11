@@ -12,17 +12,14 @@
 		525C06181A5CA7A300CD9CDC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 525C06161A5CA7A300CD9CDC /* Main.storyboard */; };
 		525C061A1A5CA7A300CD9CDC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 525C06191A5CA7A300CD9CDC /* Images.xcassets */; };
 		525C061D1A5CA7A300CD9CDC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525C061B1A5CA7A300CD9CDC /* LaunchScreen.xib */; };
-		525C06291A5CA7A400CD9CDC /* CaffeinedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C06281A5CA7A400CD9CDC /* CaffeinedTests.swift */; };
 		525C06371A5CA90100CD9CDC /* Drink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C06361A5CA90100CD9CDC /* Drink.swift */; };
 		7766B21334724638513953CD /* libPods-Caffeined.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6464F9C62959DD08E7CFC6EB /* libPods-Caffeined.a */; };
-		ACD03333CA8A7F2232D40FE4 /* libPods-CaffeinedTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0A7EB8D993D31E939CE892B /* libPods-CaffeinedTests.a */; };
 		BB782108FF58F8F6D8D51A7D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 045D2A31A3DC017C9D79C335 /* libPods.a */; };
 		C21703361A5CD22600D38C8A /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C21703351A5CD22600D38C8A /* HealthKit.framework */; };
 		C21703391A5CD27E00D38C8A /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21703381A5CD27E00D38C8A /* DatabaseManager.swift */; };
+		C24365EF1A625CD800A362A0 /* libPods-CaffeinedTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C24365EE1A625CD800A362A0 /* libPods-CaffeinedTests.a */; };
+		C24365F01A625D8000A362A0 /* CaffeinedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C06281A5CA7A400CD9CDC /* CaffeinedTests.swift */; };
 		C2A0827C1A6246DC00D6BBC8 /* drinkDatabase.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = C2A0827B1A6246DC00D6BBC8 /* drinkDatabase.sqlite */; };
-		C2A0827D1A62522500D6BBC8 /* Drink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C06361A5CA90100CD9CDC /* Drink.swift */; };
-		C2A0827E1A62522500D6BBC8 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21703381A5CD27E00D38C8A /* DatabaseManager.swift */; };
-		C2A082801A6253FB00D6BBC8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2A0827F1A6253FB00D6BBC8 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +53,7 @@
 		C21703351A5CD22600D38C8A /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		C21703371A5CD22600D38C8A /* Caffeined.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Caffeined.entitlements; sourceTree = "<group>"; };
 		C21703381A5CD27E00D38C8A /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		C24365EE1A625CD800A362A0 /* libPods-CaffeinedTests.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-CaffeinedTests.a"; path = "Pods/build/Debug-iphoneos/libPods-CaffeinedTests.a"; sourceTree = "<group>"; };
 		C2A0827B1A6246DC00D6BBC8 /* drinkDatabase.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = drinkDatabase.sqlite; sourceTree = "<group>"; };
 		C2A0827F1A6253FB00D6BBC8 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		E0A7EB8D993D31E939CE892B /* libPods-CaffeinedTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CaffeinedTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,8 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2A082801A6253FB00D6BBC8 /* libPods.a in Frameworks */,
-				ACD03333CA8A7F2232D40FE4 /* libPods-CaffeinedTests.a in Frameworks */,
+				C24365EF1A625CD800A362A0 /* libPods-CaffeinedTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,6 +86,7 @@
 		2CA87EA04F74E85782F97B10 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C24365EE1A625CD800A362A0 /* libPods-CaffeinedTests.a */,
 				C2A0827F1A6253FB00D6BBC8 /* libPods.a */,
 				C21703351A5CD22600D38C8A /* HealthKit.framework */,
 				045D2A31A3DC017C9D79C335 /* libPods.a */,
@@ -358,9 +356,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2A0827D1A62522500D6BBC8 /* Drink.swift in Sources */,
-				C2A0827E1A62522500D6BBC8 /* DatabaseManager.swift in Sources */,
-				525C06291A5CA7A400CD9CDC /* CaffeinedTests.swift in Sources */,
+				C24365F01A625D8000A362A0 /* CaffeinedTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
