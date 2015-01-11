@@ -8,7 +8,6 @@
 
 import UIKit
 import XCTest
-import Caffeined
 
 class CaffeinedTests: XCTestCase {
 
