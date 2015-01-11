@@ -16,7 +16,7 @@ enum DrinkType: String {
     case Other = "other"
 }
 
-class Drink {
+class Drink : NSObject, NSCoding, Equatable {
     var name : String = ""
     var caffeineContent : Double = 0 //mg per floz?
     var volume : Int = 0 // floz?
@@ -29,15 +29,15 @@ class Drink {
         self.type = type
     }
     
-    convenience init(decoder : NSCoder) {
-        let name : String = decoder.decodeObjectForKey("name") as String
-        let caffeineContent : Double = decoder.decodeObjectForKey("caffeineContent") as Double
-        let volume : Int = decoder.decodeObjectForKey("volume") as Int
-        let type : DrinkType = DrinkType(rawValue: decoder.decodeObjectForKey("type") as String)!
+    required convenience init(coder : NSCoder) {
+        let name : String = coder.decodeObjectForKey("name") as String
+        let caffeineContent : Double = coder.decodeObjectForKey("caffeineContent") as Double
+        let volume : Int = coder.decodeObjectForKey("volume") as Int
+        let type : DrinkType = DrinkType(rawValue: coder.decodeObjectForKey("type") as String)!
         self.init(name: name,caffeineContent: caffeineContent,volume: volume,type: type)
     }
     
-    func encodeWithEncoder(encoder : NSCoder) {
+    func encodeWithCoder(encoder : NSCoder) {
         encoder.encodeObject(name, forKey: "name")
         encoder.encodeObject(caffeineContent, forKey: "caffeineContent")
         encoder.encodeObject(volume, forKey: "volume")
@@ -60,4 +60,8 @@ class Drink {
         
         return UIImage(named: path)
     }
+}
+
+func ==(lhs: Drink, rhs: Drink) -> Bool {
+    return lhs.name == rhs.name && lhs.volume == rhs.volume
 }

@@ -8,11 +8,13 @@
 
 import UIKit
 import XCTest
+import Caffeined
 
 class CaffeinedTests: XCTestCase {
-    
+
     override func setUp() {
         super.setUp()
+        NSUserDefaults.standardUserDefaults().removeObjectForKey("CaffeinedTests")
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
@@ -21,16 +23,13 @@ class CaffeinedTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
+    func testFavorites() {
         // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
+        let drink : Drink = Drink(name: "Test", caffeineContent: 120, volume: 5, type: DrinkType.Coffee)
+        let manager : DatabaseManager = DatabaseManager()
+        manager.saveFavorite(drink)
+        XCTAssert(manager.favorites().count == 1, "There is not exactly one drink in the favorites after addition")
+        manager.deleteFavorite(drink)
+        XCTAssert(manager.favorites().count == 0, "There is a drink in the favorites after deletion")
     }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock() {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
 }
