@@ -19,6 +19,8 @@
 		C21703391A5CD27E00D38C8A /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21703381A5CD27E00D38C8A /* DatabaseManager.swift */; };
 		C24365EF1A625CD800A362A0 /* libPods-CaffeinedTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C24365EE1A625CD800A362A0 /* libPods-CaffeinedTests.a */; };
 		C24365F01A625D8000A362A0 /* CaffeinedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C06281A5CA7A400CD9CDC /* CaffeinedTests.swift */; };
+		C24365F11A625E5E00A362A0 /* Drink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C06361A5CA90100CD9CDC /* Drink.swift */; };
+		C24365F21A625E5E00A362A0 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21703381A5CD27E00D38C8A /* DatabaseManager.swift */; };
 		C2A0827C1A6246DC00D6BBC8 /* drinkDatabase.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = C2A0827B1A6246DC00D6BBC8 /* drinkDatabase.sqlite */; };
 /* End PBXBuildFile section */
 
@@ -356,7 +358,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C24365F11A625E5E00A362A0 /* Drink.swift in Sources */,
 				C24365F01A625D8000A362A0 /* CaffeinedTests.swift in Sources */,
+				C24365F21A625E5E00A362A0 /* DatabaseManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
