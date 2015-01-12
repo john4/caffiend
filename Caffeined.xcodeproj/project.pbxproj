@@ -13,7 +13,6 @@
 		525C061A1A5CA7A300CD9CDC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 525C06191A5CA7A300CD9CDC /* Images.xcassets */; };
 		525C061D1A5CA7A300CD9CDC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525C061B1A5CA7A300CD9CDC /* LaunchScreen.xib */; };
 		525C06371A5CA90100CD9CDC /* Drink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C06361A5CA90100CD9CDC /* Drink.swift */; };
-		7766B21334724638513953CD /* libPods-Caffeined.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6464F9C62959DD08E7CFC6EB /* libPods-Caffeined.a */; };
 		BB782108FF58F8F6D8D51A7D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 045D2A31A3DC017C9D79C335 /* libPods.a */; };
 		C21703361A5CD22600D38C8A /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C21703351A5CD22600D38C8A /* HealthKit.framework */; };
 		C21703391A5CD27E00D38C8A /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21703381A5CD27E00D38C8A /* DatabaseManager.swift */; };
@@ -22,6 +21,7 @@
 		C24365F11A625E5E00A362A0 /* Drink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C06361A5CA90100CD9CDC /* Drink.swift */; };
 		C24365F21A625E5E00A362A0 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21703381A5CD27E00D38C8A /* DatabaseManager.swift */; };
 		C2A0827C1A6246DC00D6BBC8 /* drinkDatabase.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = C2A0827B1A6246DC00D6BBC8 /* drinkDatabase.sqlite */; };
+		E5A09A8D0DCE147D04D4D52F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 045D2A31A3DC017C9D79C335 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,7 +69,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C21703361A5CD22600D38C8A /* HealthKit.framework in Frameworks */,
-				7766B21334724638513953CD /* libPods-Caffeined.a in Frameworks */,
 				BB782108FF58F8F6D8D51A7D /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -79,6 +78,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C24365EF1A625CD800A362A0 /* libPods-CaffeinedTests.a in Frameworks */,
+				E5A09A8D0DCE147D04D4D52F /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,7 +337,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CaffeinedTests/Pods-CaffeinedTests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -475,6 +475,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E86F77C491F33EBE90F6146F /* Pods.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Caffeined/Caffeined.entitlements;
@@ -494,6 +495,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6F88058FF48636896CF4DA29 /* Pods.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Caffeined/Caffeined.entitlements;
@@ -510,7 +512,7 @@
 		};
 		525C06301A5CA7A400CD9CDC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F07948BAAEAF844141D7041E /* Pods-CaffeinedTests.debug.xcconfig */;
+			baseConfigurationReference = E86F77C491F33EBE90F6146F /* Pods.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -531,7 +533,7 @@
 		};
 		525C06311A5CA7A400CD9CDC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 80E9C2EB022B1D2346358E23 /* Pods-CaffeinedTests.release.xcconfig */;
+			baseConfigurationReference = 6F88058FF48636896CF4DA29 /* Pods.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
