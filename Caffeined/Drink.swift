@@ -14,15 +14,17 @@ enum DrinkType: String {
     case Coffee = "coffee"
     case EnergyDrink = "energy_soda"
     case Other = "other"
+    case Default = "default"
 }
 
 class Drink : NSObject, NSCoding, Equatable {
     var name : String = ""
     var caffeineContent : Double = 0 //mg per floz?
     var volume : Int = 0 // floz?
-    var type : DrinkType = DrinkType.Other
+    var type : DrinkType = DrinkType.Default
     
-    init(name: String, caffeineContent : Double, volume : Int, type : DrinkType) {
+    convenience init(name: String, caffeineContent : Double, volume : Int, type : DrinkType) {
+        self.init()
         self.name = name
         self.caffeineContent = caffeineContent
         self.volume = volume
@@ -63,5 +65,5 @@ class Drink : NSObject, NSCoding, Equatable {
 }
 
 func ==(lhs: Drink, rhs: Drink) -> Bool {
-    return lhs.name == rhs.name && lhs.volume == rhs.volume
+    return lhs.name == rhs.name && lhs.volume == rhs.volume && lhs.type == rhs.type && lhs.caffeineContent == rhs.caffeineContent
 }

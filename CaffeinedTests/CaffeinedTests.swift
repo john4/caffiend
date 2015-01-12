@@ -31,4 +31,34 @@ class CaffeinedTests: XCTestCase {
         manager.deleteFavorite(drink)
         XCTAssert(manager.favorites().count == 0, "There is a drink in the favorites after deletion")
     }
+    
+    func testDatabase() {
+        var drink : Drink = Drink()
+        let manager : DatabaseManager = DatabaseManager()
+        var results : Array<Drink> = manager.getDrinksMatchingDrink(drink)
+        XCTAssert(results.count == 0, "A default drink did not return 0 results")
+        
+        drink.type = DrinkType.Coffee
+        results = manager.getDrinksMatchingDrink(drink)
+        XCTAssert(results.count > 0, "A search for coffee types did not return  >0 results")
+        
+        // The following tests assume that these values exist in the database, and might be broken
+        // when we actually get a database.
+        
+        drink = Drink()
+        drink.name = "Coffee"
+        
+        results = manager.getDrinksMatchingDrink(drink)
+        XCTAssert(results.count > 0, "A search for known name did not return  >0 results")
+        
+        drink = Drink()
+        drink.volume = 8
+        results = manager.getDrinksMatchingDrink(drink)
+        XCTAssert(results.count > 0, "A search for known volume did not return  >0 results")
+        
+        drink = Drink()
+        drink.caffeineContent = 50
+        results = manager.getDrinksMatchingDrink(drink)
+        XCTAssert(results.count > 0, "A search for known caffeine content did not return  >0 results")
+    }
 }

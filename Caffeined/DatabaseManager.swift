@@ -73,19 +73,69 @@ class DatabaseManager : NSObject {
     // floating around, like if we added a column later but that's unnecessary right now
     
     /**
-        Save a drink to favorites
+        Get drinks matching the given template
     
-        :param: drinkTypeLookup The DrinkType for which to return drinks.
+        :param: drinkLookup A Drink object containing the desired values in the
     
-        :returns: An array of Drink objects, all with type DrinkTypeLookup.
+        :returns: An array of Drink objects, where each field matches the corresponding field in drinkLookup
     */
-    func getDrinksForCategory(drinkTypeLookup : DrinkType) -> Array<Drink> {
+    func getDrinksMatchingDrink(drinkLookup : Drink) -> Array<Drink> {
+        
+        // if the drink is a default drink, do nothing
+        if drinkLookup == Drink() {
+            return []
+        }
         
         var drinks : Array<Drink> = []
+        var queryString : String = "SELECT * FROM drinks WHERE"
+        var includeAnd : Bool = false
+        var arguments : NSMutableArray = []
+        var index = 0
+        
+        if drinkLookup.name != "" {
+            queryString += " name = ?"
+            includeAnd = true
+            arguments.insertObject(drinkLookup.name, atIndex: index++)
+        }
+        
+        if drinkLookup.caffeineContent != 0 {
+            if includeAnd {
+                queryString += " AND"
+            }
+            else {
+                includeAnd = true
+            }
+
+            queryString += " caffeine = ?"
+            arguments.insertObject(drinkLookup.caffeineContent, atIndex: index++)
+        }
+        
+        if drinkLookup.volume != 0 {
+            if includeAnd {
+                queryString += " AND"
+            }
+            else {
+                includeAnd = true
+            }
+
+            queryString += " volume = ?"
+            arguments.insertObject(drinkLookup.volume, atIndex: index++)
+        }
+        
+        if drinkLookup.type != DrinkType.Default {
+            if includeAnd {
+                queryString += " AND"
+            }
+            else {
+                includeAnd = true
+            }
+            queryString += " type = ?"
+            arguments.insertObject(drinkLookup.type.rawValue, atIndex: index++)
+        }
         
         let results : FMResultSet = self.drinkDatabase!.executeQuery(
-            "SELECT * FROM drinks WHERE type = ?",
-            withArgumentsInArray: [drinkTypeLookup.rawValue])
+            queryString,
+            withArgumentsInArray: arguments)
         
         while results.next() {
             let newDrink = Drink(name: results.stringForColumn("name"),
