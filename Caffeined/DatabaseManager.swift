@@ -199,10 +199,21 @@ class DatabaseManager : NSObject {
         return favoriteDrinksArray
     }
     
+    /**
+        Save a drink to Health at the current time.
+    
+        :param: healthDrink The drink to save to health
+    */
     func writeToHealth(healthDrink : Drink) {
         writeToHealth(healthDrink, date: NSDate())
     }
     
+    /**
+        Save a drink to Health.
+    
+        :param: healthDrink The drink to save to health
+        :param: date The time at which it was drank
+    */
     func writeToHealth(healthDrink : Drink, date : NSDate) {
         let healthStore: HKHealthStore = HKHealthStore()
         
