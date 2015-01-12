@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import HealthKit
 
 /* Private Class Properties
  * 
@@ -196,5 +197,33 @@ class DatabaseManager : NSObject {
             }
         }
         return favoriteDrinksArray
+    }
+    
+    func writeToHealth(healthDrink : Drink) {
+        writeToHealth(healthDrink, date: NSDate())
+    }
+    
+    func writeToHealth(healthDrink : Drink, date : NSDate) {
+        let healthStore: HKHealthStore = HKHealthStore()
+        
+        let id = HKQuantityTypeIdentifierDietaryCaffeine
+        let cafType : HKQuantityType = HKObjectType.quantityTypeForIdentifier(id)
+        let caffeineValue : Double = healthDrink.caffeineContent * Double(healthDrink.volume)
+        let cafQuantity : HKQuantity = HKQuantity(unit: HKUnit.gramUnit(), doubleValue: caffeineValue)
+
+        let cafSample : HKQuantitySample = HKQuantitySample(type: cafType, quantity: cafQuantity, startDate: date, endDate: date)
+        var error = NSError()
+        
+        NSLog("Description of sample %@", cafSample.description)
+        
+        healthStore.saveObject(cafSample, withCompletion: {(success, error) in
+            if(success) {
+                NSLog("SAVED")
+            }
+            else {
+                NSLog("DIDNT SAVE:  %@", error)
+            }
+            }
+        )
     }
 }

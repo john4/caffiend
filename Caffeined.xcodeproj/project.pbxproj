@@ -39,7 +39,6 @@
 		525C060A1A5CA7A300CD9CDC /* Caffeined.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Caffeined.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		525C060E1A5CA7A300CD9CDC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		525C060F1A5CA7A300CD9CDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		525C06121A5CA7A300CD9CDC /* Caffeined.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Caffeined.xcdatamodel; sourceTree = "<group>"; };
 		525C06141A5CA7A300CD9CDC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		525C06171A5CA7A300CD9CDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		525C06191A5CA7A300CD9CDC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -129,7 +128,6 @@
 				525C06161A5CA7A300CD9CDC /* Main.storyboard */,
 				525C06191A5CA7A300CD9CDC /* Images.xcassets */,
 				525C061B1A5CA7A300CD9CDC /* LaunchScreen.xib */,
-				525C06111A5CA7A300CD9CDC /* Caffeined.xcdatamodeld */,
 				525C060D1A5CA7A300CD9CDC /* Supporting Files */,
 				525C06361A5CA90100CD9CDC /* Drink.swift */,
 				C21703381A5CD27E00D38C8A /* DatabaseManager.swift */,
@@ -579,19 +577,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		525C06111A5CA7A300CD9CDC /* Caffeined.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				525C06121A5CA7A300CD9CDC /* Caffeined.xcdatamodel */,
-			);
-			currentVersion = 525C06121A5CA7A300CD9CDC /* Caffeined.xcdatamodel */;
-			path = Caffeined.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 525C06021A5CA7A300CD9CDC /* Project object */;
 }
