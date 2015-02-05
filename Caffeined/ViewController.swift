@@ -19,36 +19,5 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    let healthStore: HKHealthStore = HKHealthStore()
-    
-    func addCoffee() -> Void {
-        var id = HKQuantityTypeIdentifierDietaryCaffeine
-        var cafType: HKQuantityType = HKObjectType.quantityTypeForIdentifier(id)
-        
-        var myCaf: HKQuantity = HKQuantity(unit: HKUnit.gramUnit(), doubleValue: 50.0)
-        
-        var now = NSDate()
-        
-        var cafSample: HKQuantitySample = HKQuantitySample(type: cafType, quantity: myCaf, startDate: now, endDate: now)
-        
-        var error = NSError()
-        
-        NSLog("HEELLLOO", cafSample.description)
-        
-        healthStore.saveObject(cafSample, withCompletion: { (success, error) in
-            if(success) {
-                NSLog("SAVED")
-            }
-            else {
-                NSLog("DIDNT SAVE :  %@", error)
-            }
-            }
-        )
-        
-        NSLog("NATe")
-        
-    }
-
 }
 

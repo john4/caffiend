@@ -1,0 +1,240 @@
+//
+//  DatabaseManager.swift
+//  Caffeined
+//
+//  Created by Stefan Rajkovic on 6/1/15.
+//  Copyright (c) 2015 John Martin. All rights reserved.
+//
+
+import Foundation
+import HealthKit
+
+/* Private Class Properties
+ * 
+ * These don't need to be visible to anyone else and are constant across all instances
+ * of this class, so they live up here.
+ *
+ */
+private let _defaultManager = DatabaseManager()
+
+private let documentsFolder = NSSearchPathForDirectoriesInDomains(.DocumentDirectory,
+    .UserDomainMask, true)[0] as String
+
+private let databasePath = documentsFolder.stringByAppendingPathComponent("drinkDatabase.sqlite")
+
+private let userDefaultsKey = "CaffeinedFavorites"
+
+class DatabaseManager : NSObject {
+    
+    private var drinkDatabase : FMDatabase?
+    
+    /**
+        Return the shared DatabaseManager
+    
+        :returns: The shared DatabaseManager
+    */
+    class func defaultManager() -> DatabaseManager {
+        return _defaultManager
+    }
+    
+    override init() {
+        super.init()
+        
+        copyDatabaseFile()
+        
+        self.initializeDatabase()
+    }
+    
+    private func initializeDatabase() {
+        
+        self.drinkDatabase = FMDatabase(path: databasePath)
+        
+        if (self.drinkDatabase != nil && !self.drinkDatabase!.open()) {
+            NSLog("Shit, we couldn't open the database, better copy it back and try again")
+            self.drinkDatabase = nil;
+            
+            NSFileManager.defaultManager().removeItemAtPath(databasePath, error: nil)
+            copyDatabaseFile()
+            
+            self.drinkDatabase = FMDatabase(path: databasePath)
+            self.drinkDatabase!.open()
+        
+        }
+        
+        return
+    }
+    
+    private func copyDatabaseFile() {
+        if !NSFileManager.defaultManager().fileExistsAtPath(databasePath) {
+            NSFileManager.defaultManager().copyItemAtPath(NSBundle.mainBundle().pathForResource(
+                "drinkDatabase", ofType: "sqlite")!, toPath: databasePath, error: nil)
+        }
+    }
+    // here we could have an else if we have multiple versions of this DB
+    // floating around, like if we added a column later but that's unnecessary right now
+    
+    /**
+        Get drinks matching the given template
+    
+        :param: drinkLookup A Drink object containing the desired values in the
+    
+        :returns: An array of Drink objects, where each field matches the corresponding field in drinkLookup
+    */
+    func getDrinksMatchingDrink(drinkLookup : Drink) -> Array<Drink> {
+        
+        // if the drink is a default drink, do nothing
+        if drinkLookup == Drink() {
+            return []
+        }
+        
+        var drinks : Array<Drink> = []
+        var queryString : String = "SELECT * FROM drinks WHERE"
+        var includeAnd : Bool = false
+        var arguments : NSMutableArray = []
+        var index = 0
+        
+        if drinkLookup.name != "" {
+            queryString += " name = ?"
+            includeAnd = true
+            arguments.insertObject(drinkLookup.name, atIndex: index++)
+        }
+        
+        if drinkLookup.caffeineContent != 0 {
+            if includeAnd {
+                queryString += " AND"
+            }
+            else {
+                includeAnd = true
+            }
+
+            queryString += " caffeine = ?"
+            arguments.insertObject(drinkLookup.caffeineContent, atIndex: index++)
+        }
+        
+        if drinkLookup.volume != 0 {
+            if includeAnd {
+                queryString += " AND"
+            }
+            else {
+                includeAnd = true
+            }
+
+            queryString += " volume = ?"
+            arguments.insertObject(drinkLookup.volume, atIndex: index++)
+        }
+        
+        if drinkLookup.type != DrinkType.Default {
+            if includeAnd {
+                queryString += " AND"
+            }
+            else {
+                includeAnd = true
+            }
+            queryString += " type = ?"
+            arguments.insertObject(drinkLookup.type.rawValue, atIndex: index++)
+        }
+        
+        let results : FMResultSet = self.drinkDatabase!.executeQuery(
+            queryString,
+            withArgumentsInArray: arguments)
+        
+        while results.next() {
+            let newDrink = Drink(name: results.stringForColumn("name"),
+                caffeineContent : results.doubleForColumn("caffeine"),
+                volume : Int(results.intForColumn("volume")),
+                type : DrinkType(rawValue: results.stringForColumn("type"))!)
+            drinks.append(newDrink)
+        }
+        return drinks
+    }
+    
+    /** 
+        Save a drink to favorites
+    
+        :param: favorite The drink to be saved to favorites.
+     */
+    func saveFavorite(favorite: Drink) -> Void {
+        let archiveData : NSData = NSKeyedArchiver.archivedDataWithRootObject(favorite)
+        var favorites_array : Array<NSData>? = NSUserDefaults.standardUserDefaults().valueForKey(userDefaultsKey) as Array<NSData>?
+        if (favorites_array != nil) {
+            favorites_array!.append(archiveData)
+        }
+        else {
+            favorites_array = [archiveData]
+        }
+        NSUserDefaults.standardUserDefaults().setObject(favorites_array!, forKey: userDefaultsKey)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
+    /**
+        Remove a drink from the favorites. If the drink is not a favorite, do nothing.
+    
+        :param: favorite The drink to be removed from the favorites
+    */
+    func deleteFavorite(favorite: Drink) -> Void {
+        let archiveData : NSData = NSKeyedArchiver.archivedDataWithRootObject(favorite)
+        var favoritesArray : Array<NSData>? = NSUserDefaults.standardUserDefaults().valueForKey(userDefaultsKey) as Array<NSData>?
+        if favoritesArray != nil {
+            if let index : Int? = find(favoritesArray!, archiveData) {
+                favoritesArray!.removeAtIndex(index!)
+                NSUserDefaults.standardUserDefaults().setValue(favoritesArray!, forKey: userDefaultsKey)
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
+        }
+    }
+    
+    /**
+        Return an array of the user's favorites.
+    
+        :returns: An array of the user's favorites
+    */
+    func favorites() -> Array<Drink> {
+        let favoritesArray : Array<NSData>? = NSUserDefaults.standardUserDefaults().valueForKey(userDefaultsKey) as Array<NSData>?
+        var favoriteDrinksArray : Array<Drink> = []
+        if (favoritesArray != nil) {
+            for favorite in favoritesArray! {
+                favoriteDrinksArray.append(NSKeyedUnarchiver.unarchiveObjectWithData(favorite) as Drink)
+            }
+        }
+        return favoriteDrinksArray
+    }
+    
+    /**
+        Save a drink to Health at the current time.
+    
+        :param: healthDrink The drink to save to health
+    */
+    func writeToHealth(healthDrink : Drink) {
+        writeToHealth(healthDrink, date: NSDate())
+    }
+    
+    /**
+        Save a drink to Health.
+    
+        :param: healthDrink The drink to save to health
+        :param: date The time at which it was drank
+    */
+    func writeToHealth(healthDrink : Drink, date : NSDate) {
+        let healthStore: HKHealthStore = HKHealthStore()
+        
+        let id = HKQuantityTypeIdentifierDietaryCaffeine
+        let cafType : HKQuantityType = HKObjectType.quantityTypeForIdentifier(id)
+        let caffeineValue : Double = healthDrink.caffeineContent * Double(healthDrink.volume)
+        let cafQuantity : HKQuantity = HKQuantity(unit: HKUnit.gramUnit(), doubleValue: caffeineValue)
+
+        let cafSample : HKQuantitySample = HKQuantitySample(type: cafType, quantity: cafQuantity, startDate: date, endDate: date)
+        var error = NSError()
+        
+        NSLog("Description of sample %@", cafSample.description)
+        
+        healthStore.saveObject(cafSample, withCompletion: {(success, error) in
+            if(success) {
+                NSLog("SAVED")
+            }
+            else {
+                NSLog("DIDNT SAVE:  %@", error)
+            }
+            }
+        )
+    }
+}
