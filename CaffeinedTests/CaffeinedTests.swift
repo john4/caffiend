@@ -23,7 +23,6 @@ class CaffeinedTests: XCTestCase {
     }
     
     func testFavorites() {
-        // This is an example of a functional test case.
         let drink : Drink = Drink(name: "Test", caffeineContent: 120, volume: 5, type: DrinkType.Coffee)
         let manager : DatabaseManager = DatabaseManager()
         manager.saveFavorite(drink)
