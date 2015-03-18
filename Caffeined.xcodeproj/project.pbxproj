@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		525C06101A5CA7A300CD9CDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C060F1A5CA7A300CD9CDC /* AppDelegate.swift */; };
-		525C06151A5CA7A300CD9CDC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C06141A5CA7A300CD9CDC /* ViewController.swift */; };
+		525C06151A5CA7A300CD9CDC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C06141A5CA7A300CD9CDC /* HomeViewController.swift */; };
 		525C06181A5CA7A300CD9CDC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 525C06161A5CA7A300CD9CDC /* Main.storyboard */; };
 		525C061A1A5CA7A300CD9CDC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 525C06191A5CA7A300CD9CDC /* Images.xcassets */; };
 		525C061D1A5CA7A300CD9CDC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 525C061B1A5CA7A300CD9CDC /* LaunchScreen.xib */; };
@@ -20,6 +20,7 @@
 		C24365F11A625E5E00A362A0 /* Drink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C06361A5CA90100CD9CDC /* Drink.swift */; };
 		C24365F21A625E5E00A362A0 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21703381A5CD27E00D38C8A /* DatabaseManager.swift */; };
 		C2A0827C1A6246DC00D6BBC8 /* drinkDatabase.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = C2A0827B1A6246DC00D6BBC8 /* drinkDatabase.sqlite */; };
+		C2FF15421A843BB2005E2F26 /* BrowseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2FF15411A843BB2005E2F26 /* BrowseViewController.swift */; };
 		E5A09A8D0DCE147D04D4D52F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 045D2A31A3DC017C9D79C335 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -38,7 +39,7 @@
 		525C060A1A5CA7A300CD9CDC /* Caffeined.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Caffeined.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		525C060E1A5CA7A300CD9CDC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		525C060F1A5CA7A300CD9CDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		525C06141A5CA7A300CD9CDC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		525C06141A5CA7A300CD9CDC /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		525C06171A5CA7A300CD9CDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		525C06191A5CA7A300CD9CDC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		525C061C1A5CA7A300CD9CDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -56,6 +57,7 @@
 		C24365EE1A625CD800A362A0 /* libPods-CaffeinedTests.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-CaffeinedTests.a"; path = "Pods/build/Debug-iphoneos/libPods-CaffeinedTests.a"; sourceTree = "<group>"; };
 		C2A0827B1A6246DC00D6BBC8 /* drinkDatabase.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = drinkDatabase.sqlite; sourceTree = "<group>"; };
 		C2A0827F1A6253FB00D6BBC8 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		C2FF15411A843BB2005E2F26 /* BrowseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseViewController.swift; sourceTree = "<group>"; };
 		E0A7EB8D993D31E939CE892B /* libPods-CaffeinedTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CaffeinedTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E86F77C491F33EBE90F6146F /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F07948BAAEAF844141D7041E /* Pods-CaffeinedTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CaffeinedTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CaffeinedTests/Pods-CaffeinedTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -119,10 +121,10 @@
 		525C060C1A5CA7A300CD9CDC /* Caffeined */ = {
 			isa = PBXGroup;
 			children = (
+				C2FF15431A843BC7005E2F26 /* View Controllers */,
 				C21703371A5CD22600D38C8A /* Caffeined.entitlements */,
 				C2A0827B1A6246DC00D6BBC8 /* drinkDatabase.sqlite */,
 				525C060F1A5CA7A300CD9CDC /* AppDelegate.swift */,
-				525C06141A5CA7A300CD9CDC /* ViewController.swift */,
 				525C06161A5CA7A300CD9CDC /* Main.storyboard */,
 				525C06191A5CA7A300CD9CDC /* Images.xcassets */,
 				525C061B1A5CA7A300CD9CDC /* LaunchScreen.xib */,
@@ -167,6 +169,15 @@
 				80E9C2EB022B1D2346358E23 /* Pods-CaffeinedTests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		C2FF15431A843BC7005E2F26 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C2FF15411A843BB2005E2F26 /* BrowseViewController.swift */,
+				525C06141A5CA7A300CD9CDC /* HomeViewController.swift */,
+			);
+			name = "View Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -343,10 +354,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				525C06151A5CA7A300CD9CDC /* ViewController.swift in Sources */,
+				525C06151A5CA7A300CD9CDC /* HomeViewController.swift in Sources */,
 				525C06101A5CA7A300CD9CDC /* AppDelegate.swift in Sources */,
 				C21703391A5CD27E00D38C8A /* DatabaseManager.swift in Sources */,
 				525C06371A5CA90100CD9CDC /* Drink.swift in Sources */,
+				C2FF15421A843BB2005E2F26 /* BrowseViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
