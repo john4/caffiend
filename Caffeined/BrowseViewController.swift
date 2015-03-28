@@ -18,7 +18,5 @@ class BrowseViewController: UITableViewController {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
-    
-    
-    
+
 }

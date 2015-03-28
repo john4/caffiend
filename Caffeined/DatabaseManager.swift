@@ -16,6 +16,7 @@ import HealthKit
  *
  */
 private let _defaultManager = DatabaseManager()
+private let _defaultHealthStore = HKHealthStore()
 
 private let documentsFolder = NSSearchPathForDirectoriesInDomains(.DocumentDirectory,
     .UserDomainMask, true)[0] as String
@@ -35,6 +36,15 @@ class DatabaseManager : NSObject {
     */
     class func defaultManager() -> DatabaseManager {
         return _defaultManager
+    }
+    
+    /**
+    Return the shared HKHealthStore
+    
+    :returns: The shared HKHealthStore
+    */
+    class func defaultHealthStore() -> HKHealthStore {
+        return _defaultHealthStore
     }
     
     override init() {
@@ -200,22 +210,14 @@ class DatabaseManager : NSObject {
     }
     
     /**
-        Save a drink to Health at the current time.
-    
-        :param: healthDrink The drink to save to health
-    */
-    func writeToHealth(healthDrink : Drink) {
-        writeToHealth(healthDrink, date: NSDate())
-    }
-    
-    /**
         Save a drink to Health.
     
         :param: healthDrink The drink to save to health
         :param: date The time at which it was drank
+        :param: completion block to run on completion of the save
     */
-    func writeToHealth(healthDrink : Drink, date : NSDate) {
-        let healthStore: HKHealthStore = HKHealthStore()
+    func writeToHealth(healthDrink : Drink, date : NSDate, completion: ((Bool, NSError!) -> Void)!) {
+        let healthStore = _defaultHealthStore
         
         let id = HKQuantityTypeIdentifierDietaryCaffeine
         let cafType : HKQuantityType = HKObjectType.quantityTypeForIdentifier(id)
@@ -227,14 +229,42 @@ class DatabaseManager : NSObject {
         
         NSLog("Description of sample %@", cafSample.description)
         
-        healthStore.saveObject(cafSample, withCompletion: {(success, error) in
-            if(success) {
-                NSLog("SAVED")
-            }
-            else {
-                NSLog("DIDNT SAVE:  %@", error)
-            }
-            }
-        )
+        _defaultHealthStore.saveObject(cafSample, withCompletion:completion)
+    }
+    
+    /**
+        Save a drink to Health.
+    
+        :param: healthDrink The drink to save to health
+        :param: date The time at which it was drank
+    */
+    func writeToHealth(healthDrink : Drink, date : NSDate) {
+        writeToHealth(healthDrink, date: date, completion: { _ in })
+    }
+    
+    /**
+        Ask for permissions from HK
+
+        :param: completion block to run on completion of the request
+    */
+    func askForHealthPermissions(completion : ((Bool, NSError!) -> Void)!) {
+        let readingTypes = NSSet(array:[
+            HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierDateOfBirth),
+            HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierBiologicalSex),
+            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass),
+            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeight),
+            ])
+        let writingTypes = NSSet(array:[
+            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryCaffeine)
+            ])
+        
+        _defaultHealthStore.requestAuthorizationToShareTypes(writingTypes, readTypes: readingTypes, completion: completion)
+    }
+    
+    /**
+        Ask for permissions from HK
+    */
+    func askForHealthPermissions() {
+        askForHealthPermissions({ _ in })
     }
 }
