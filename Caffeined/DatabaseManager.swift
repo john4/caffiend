@@ -273,6 +273,11 @@ class DatabaseManager : NSObject {
         askForHealthPermissions({ _ in })
     }
     
+    /**
+        Get age from HK
+    
+        :return: age in seconds or nil
+    */
     func getHKAge() -> NSTimeInterval? {
         let dob = _defaultHealthStore.dateOfBirthWithError(nil)
         if (dob != nil) {
@@ -281,10 +286,20 @@ class DatabaseManager : NSObject {
         return nil
     }
     
+    /**
+        Get biological sex from HK
+    
+        :return: HKBiologicalSex enum (Male | Female | NotSet | Other)
+    */
     func getHKSex() -> HKBiologicalSex {
         return _defaultHealthStore.biologicalSexWithError(nil).biologicalSex
     }
 
+    /**
+        Get weight from HK
+
+        :param: completion block to execute on completion. Second value is only valid if first is true.
+    */
     func getHKWeight(completion : (Bool, Double) -> Void) -> Void {
         let weightType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)
         let mostRecentPredicate = HKQuery.predicateForSamplesWithStartDate(NSDate(timeIntervalSince1970: 0), endDate:NSDate(), options: .None)
@@ -302,6 +317,11 @@ class DatabaseManager : NSObject {
         _defaultHealthStore.executeQuery(weight_query)
     }
     
+    /**
+    Get height from HK
+    
+    :param: completion block to execute on completion. Second value is only valid if first is true.
+    */
     func getHKHeight(completion : (Bool, Double) -> Void) -> Void {
         let heightType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeight)
         let mostRecentPredicate = HKQuery.predicateForSamplesWithStartDate(NSDate(timeIntervalSince1970: 0), endDate:NSDate(), options: .None)
