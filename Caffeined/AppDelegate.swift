@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import HealthKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +16,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        DatabaseManager.defaultManager().askForHealthPermissions()
+        println("\(DatabaseManager().getHKAge())")
+        println("\(DatabaseManager().getHKSex())")
+        DatabaseManager().getHKHeight { (success, height) -> Void in
+            println("\(height)")
+        }
+        DatabaseManager().getHKWeight { (success, weight) -> Void in
+            println("\(weight)")
+        }
         return true
     }
 

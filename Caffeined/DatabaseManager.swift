@@ -16,6 +16,7 @@ import HealthKit
  *
  */
 private let _defaultManager = DatabaseManager()
+private let _defaultHealthStore = HKHealthStore()
 
 private let documentsFolder = NSSearchPathForDirectoriesInDomains(.DocumentDirectory,
     .UserDomainMask, true)[0] as String
@@ -37,19 +38,31 @@ class DatabaseManager : NSObject {
         return _defaultManager
     }
     
+    /**
+    Return the shared HKHealthStore
+    
+    :returns: The shared HKHealthStore
+    */
+    class func defaultHealthStore() -> HKHealthStore {
+        return _defaultHealthStore
+    }
+    
     override init() {
+        saveToHealth = _defaultHealthStore.authorizationStatusForType(HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryCaffeine))
         super.init()
         
         copyDatabaseFile()
-        
         self.initializeDatabase()
     }
+    
+    var saveToHealth : HKAuthorizationStatus
     
     private func initializeDatabase() {
         
         self.drinkDatabase = FMDatabase(path: databasePath)
         
         if (self.drinkDatabase != nil && !self.drinkDatabase!.open()) {
+            // We might want to be able to tell people their DB failed here?
             NSLog("Shit, we couldn't open the database, better copy it back and try again")
             self.drinkDatabase = nil;
             
@@ -174,7 +187,7 @@ class DatabaseManager : NSObject {
     func deleteFavorite(favorite: Drink) -> Void {
         let archiveData : NSData = NSKeyedArchiver.archivedDataWithRootObject(favorite)
         var favoritesArray : Array<NSData>? = NSUserDefaults.standardUserDefaults().valueForKey(userDefaultsKey) as Array<NSData>?
-        if favoritesArray != nil {
+        if (favoritesArray != nil) {
             if let index : Int? = find(favoritesArray!, archiveData) {
                 favoritesArray!.removeAtIndex(index!)
                 NSUserDefaults.standardUserDefaults().setValue(favoritesArray!, forKey: userDefaultsKey)
@@ -200,22 +213,14 @@ class DatabaseManager : NSObject {
     }
     
     /**
-        Save a drink to Health at the current time.
-    
-        :param: healthDrink The drink to save to health
-    */
-    func writeToHealth(healthDrink : Drink) {
-        writeToHealth(healthDrink, date: NSDate())
-    }
-    
-    /**
         Save a drink to Health.
     
         :param: healthDrink The drink to save to health
         :param: date The time at which it was drank
+        :param: completion block to run on completion of the save
     */
-    func writeToHealth(healthDrink : Drink, date : NSDate) {
-        let healthStore: HKHealthStore = HKHealthStore()
+    func writeToHealth(healthDrink : Drink, date : NSDate, completion: ((Bool, NSError!) -> Void)!) {
+        let healthStore = _defaultHealthStore
         
         let id = HKQuantityTypeIdentifierDietaryCaffeine
         let cafType : HKQuantityType = HKObjectType.quantityTypeForIdentifier(id)
@@ -227,14 +232,110 @@ class DatabaseManager : NSObject {
         
         NSLog("Description of sample %@", cafSample.description)
         
-        healthStore.saveObject(cafSample, withCompletion: {(success, error) in
-            if(success) {
-                NSLog("SAVED")
+        _defaultHealthStore.saveObject(cafSample, withCompletion:completion)
+    }
+    
+    /**
+        Save a drink to Health.
+    
+        :param: healthDrink The drink to save to health
+        :param: date The time at which it was drank
+    */
+    func writeToHealth(healthDrink : Drink, date : NSDate) {
+        writeToHealth(healthDrink, date: date, completion: { _ in })
+    }
+    
+    /**
+        Ask for permissions from HK
+
+        :param: completion block to run on completion of the request
+    */
+    func askForHealthPermissions(completion : ((Bool, NSError!) -> Void)!) {
+        let readingTypes = NSSet(array:[
+            HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierDateOfBirth),
+            HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierBiologicalSex),
+            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass),
+            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeight),
+            ])
+        let writingTypes = NSSet(array:[
+            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryCaffeine)
+            ])
+        
+        _defaultHealthStore.requestAuthorizationToShareTypes(writingTypes, readTypes: readingTypes, completion: completion)
+        
+        saveToHealth = _defaultHealthStore.authorizationStatusForType(HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryCaffeine))
+    }
+    
+    /**
+        Ask for permissions from HK
+    */
+    func askForHealthPermissions() {
+        askForHealthPermissions({ _ in })
+    }
+    
+    /**
+        Get age from HK
+    
+        :return: age in seconds or nil
+    */
+    func getHKAge() -> NSTimeInterval? {
+        let dob = _defaultHealthStore.dateOfBirthWithError(nil)
+        if (dob != nil) {
+            return NSDate().timeIntervalSince1970 - dob.timeIntervalSince1970
+        }
+        return nil
+    }
+    
+    /**
+        Get biological sex from HK
+    
+        :return: HKBiologicalSex enum (Male | Female | NotSet | Other)
+    */
+    func getHKSex() -> HKBiologicalSex {
+        return _defaultHealthStore.biologicalSexWithError(nil).biologicalSex
+    }
+
+    /**
+        Get weight from HK
+
+        :param: completion block to execute on completion. Second value is only valid if first is true.
+    */
+    func getHKWeight(completion : (Bool, Double) -> Void) -> Void {
+        let weightType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)
+        let mostRecentPredicate = HKQuery.predicateForSamplesWithStartDate(NSDate(timeIntervalSince1970: 0), endDate:NSDate(), options: .None)
+        let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: false)
+        let weight_query = HKSampleQuery(sampleType: weightType, predicate: mostRecentPredicate, limit: 1, sortDescriptors: [sortDescriptor]) { (sample, results, error) -> Void in
+            if (results != nil && 1 == results.count) {
+                let weight = results.first as HKQuantitySample
+                let user_weight = weight.quantity.doubleValueForUnit(HKUnit.poundUnit())
+                completion(true, user_weight) as Void
             }
             else {
-                NSLog("DIDNT SAVE:  %@", error)
+                completion(false,-1)
             }
+        }
+        _defaultHealthStore.executeQuery(weight_query)
+    }
+    
+    /**
+    Get height from HK
+    
+    :param: completion block to execute on completion. Second value is only valid if first is true.
+    */
+    func getHKHeight(completion : (Bool, Double) -> Void) -> Void {
+        let heightType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeight)
+        let mostRecentPredicate = HKQuery.predicateForSamplesWithStartDate(NSDate(timeIntervalSince1970: 0), endDate:NSDate(), options: .None)
+        let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: false)
+        let height_query = HKSampleQuery(sampleType: heightType, predicate: mostRecentPredicate, limit: 1, sortDescriptors: [sortDescriptor]) { (sample, results, error) -> Void in
+            if (results != nil && 1 == results.count) {
+                let height = results.first as HKQuantitySample
+                let user_height = height.quantity.doubleValueForUnit(HKUnit.inchUnit())
+                completion(true, user_height) as Void
             }
-        )
+            else {
+                completion(false,-1)
+            }
+        }
+        _defaultHealthStore.executeQuery(height_query)
     }
 }
