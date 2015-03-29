@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5236DD4A1AC7909E006D330B /* TransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5236DD491AC7909E006D330B /* TransitionManager.swift */; };
 		525C06101A5CA7A300CD9CDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C060F1A5CA7A300CD9CDC /* AppDelegate.swift */; };
 		525C06151A5CA7A300CD9CDC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525C06141A5CA7A300CD9CDC /* ViewController.swift */; };
 		525C06181A5CA7A300CD9CDC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 525C06161A5CA7A300CD9CDC /* Main.storyboard */; };
@@ -35,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		045D2A31A3DC017C9D79C335 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5236DD491AC7909E006D330B /* TransitionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionManager.swift; sourceTree = "<group>"; };
 		525C060A1A5CA7A300CD9CDC /* Caffeined.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Caffeined.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		525C060E1A5CA7A300CD9CDC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		525C060F1A5CA7A300CD9CDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 				525C060F1A5CA7A300CD9CDC /* AppDelegate.swift */,
 				525C06141A5CA7A300CD9CDC /* ViewController.swift */,
 				525C06161A5CA7A300CD9CDC /* Main.storyboard */,
+				5236DD491AC7909E006D330B /* TransitionManager.swift */,
 				525C06191A5CA7A300CD9CDC /* Images.xcassets */,
 				525C061B1A5CA7A300CD9CDC /* LaunchScreen.xib */,
 				525C060D1A5CA7A300CD9CDC /* Supporting Files */,
@@ -344,6 +347,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				525C06151A5CA7A300CD9CDC /* ViewController.swift in Sources */,
+				5236DD4A1AC7909E006D330B /* TransitionManager.swift in Sources */,
 				525C06101A5CA7A300CD9CDC /* AppDelegate.swift in Sources */,
 				C21703391A5CD27E00D38C8A /* DatabaseManager.swift in Sources */,
 				525C06371A5CA90100CD9CDC /* Drink.swift in Sources */,
