@@ -48,18 +48,21 @@ class DatabaseManager : NSObject {
     }
     
     override init() {
+        saveToHealth = _defaultHealthStore.authorizationStatusForType(HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryCaffeine))
         super.init()
         
         copyDatabaseFile()
-        
         self.initializeDatabase()
     }
+    
+    var saveToHealth : HKAuthorizationStatus
     
     private func initializeDatabase() {
         
         self.drinkDatabase = FMDatabase(path: databasePath)
         
         if (self.drinkDatabase != nil && !self.drinkDatabase!.open()) {
+            // We might want to be able to tell people their DB failed here?
             NSLog("Shit, we couldn't open the database, better copy it back and try again")
             self.drinkDatabase = nil;
             
@@ -184,7 +187,7 @@ class DatabaseManager : NSObject {
     func deleteFavorite(favorite: Drink) -> Void {
         let archiveData : NSData = NSKeyedArchiver.archivedDataWithRootObject(favorite)
         var favoritesArray : Array<NSData>? = NSUserDefaults.standardUserDefaults().valueForKey(userDefaultsKey) as Array<NSData>?
-        if favoritesArray != nil {
+        if (favoritesArray != nil) {
             if let index : Int? = find(favoritesArray!, archiveData) {
                 favoritesArray!.removeAtIndex(index!)
                 NSUserDefaults.standardUserDefaults().setValue(favoritesArray!, forKey: userDefaultsKey)
@@ -259,6 +262,8 @@ class DatabaseManager : NSObject {
             ])
         
         _defaultHealthStore.requestAuthorizationToShareTypes(writingTypes, readTypes: readingTypes, completion: completion)
+        
+        saveToHealth = _defaultHealthStore.authorizationStatusForType(HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryCaffeine))
     }
     
     /**
@@ -266,5 +271,51 @@ class DatabaseManager : NSObject {
     */
     func askForHealthPermissions() {
         askForHealthPermissions({ _ in })
+    }
+    
+    func getHKAge() -> NSTimeInterval? {
+        let dob = _defaultHealthStore.dateOfBirthWithError(nil)
+        if (dob != nil) {
+            return NSDate().timeIntervalSince1970 - dob.timeIntervalSince1970
+        }
+        return nil
+    }
+    
+    func getHKSex() -> HKBiologicalSex {
+        return _defaultHealthStore.biologicalSexWithError(nil).biologicalSex
+    }
+
+    func getHKWeight(completion : (Bool, Double) -> Void) -> Void {
+        let weightType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)
+        let mostRecentPredicate = HKQuery.predicateForSamplesWithStartDate(NSDate(timeIntervalSince1970: 0), endDate:NSDate(), options: .None)
+        let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: false)
+        let weight_query = HKSampleQuery(sampleType: weightType, predicate: mostRecentPredicate, limit: 1, sortDescriptors: [sortDescriptor]) { (sample, results, error) -> Void in
+            if (results != nil && 1 == results.count) {
+                let weight = results.first as HKQuantitySample
+                let user_weight = weight.quantity.doubleValueForUnit(HKUnit.poundUnit())
+                completion(true, user_weight) as Void
+            }
+            else {
+                completion(false,-1)
+            }
+        }
+        _defaultHealthStore.executeQuery(weight_query)
+    }
+    
+    func getHKHeight(completion : (Bool, Double) -> Void) -> Void {
+        let heightType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeight)
+        let mostRecentPredicate = HKQuery.predicateForSamplesWithStartDate(NSDate(timeIntervalSince1970: 0), endDate:NSDate(), options: .None)
+        let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: false)
+        let height_query = HKSampleQuery(sampleType: heightType, predicate: mostRecentPredicate, limit: 1, sortDescriptors: [sortDescriptor]) { (sample, results, error) -> Void in
+            if (results != nil && 1 == results.count) {
+                let height = results.first as HKQuantitySample
+                let user_height = height.quantity.doubleValueForUnit(HKUnit.inchUnit())
+                completion(true, user_height) as Void
+            }
+            else {
+                completion(false,-1)
+            }
+        }
+        _defaultHealthStore.executeQuery(height_query)
     }
 }
